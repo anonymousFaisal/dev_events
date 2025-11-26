@@ -19,7 +19,6 @@ const Home = () => {
                 <EventCard {...event} />
             </li>
           ))}
-
         </ul>
       </div>
     </section>
