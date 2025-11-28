@@ -63,3 +63,20 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    await dbConnect();
+    const events = await Event.find().sort({ createdAt: -1 });
+    return NextResponse.json({message: "Events Fetched Successfully", events }, { status: 200 });
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    return NextResponse.json(
+      {
+        message: "Event Fetching Failed",
+        error: error instanceof Error ? error.message : "Unknown Error",
+      },
+      { status: 500 }
+    );
+  }
+}
