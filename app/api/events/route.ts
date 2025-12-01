@@ -22,6 +22,7 @@ const CreateEventSchema = z.object({
   tags: z.array(z.string()).min(1, "At least one tag is required"),
 });
 
+// Create Event
 export async function POST(request: NextRequest) {
   try {
     await dbConnect();
@@ -64,6 +65,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// Fetch Events
 export async function GET() {
   try {
     await dbConnect();
@@ -80,3 +82,5 @@ export async function GET() {
     );
   }
 }
+
+// Route that accepts a slug parameter
