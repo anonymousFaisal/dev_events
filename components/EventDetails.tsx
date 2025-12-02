@@ -3,12 +3,9 @@ import React from "react";
 import Image from "next/image";
 import BookEvent from "@/components/BookEvent";
 import { IEvent } from "@/database/event.model";
-import { getSimilarEventsBySlug } from "@/lib/actions/event.action";
+import { getSimilarEventsBySlug, getEventBySlug } from "@/lib/actions/event.action";
 import EventCard from "@/components/EventCard";
 import { cacheLife } from "next/cache";
-
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 const EventDetailItem = ({ icon, alt, label }: { icon: string; alt: string; label: string }) => {
   return (
@@ -48,8 +45,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
   "use cache";
   cacheLife("hours");
   const slug = await params;
-  const request = await fetch(`${BASE_URL}/api/events/${slug}`);
-  const event = await request.json();
+  const event = await getEventBySlug(slug);
 
   if (!event) return notFound();
 

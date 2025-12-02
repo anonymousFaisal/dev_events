@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Event from "@/database/event.model";
+import { getAllEvents } from "@/lib/actions/event.action";
 import { z } from "zod";
 
 // Define Validation Schema
@@ -68,9 +69,8 @@ export async function POST(request: NextRequest) {
 // Fetch Events
 export async function GET() {
   try {
-    await dbConnect();
-    const events = await Event.find().sort({ createdAt: -1 });
-    return NextResponse.json({message: "Events Fetched Successfully", events }, { status: 200 });
+    const events = await getAllEvents();
+    return NextResponse.json({ message: "Events Fetched Successfully", events }, { status: 200 });
   } catch (error) {
     console.error("Error fetching events:", error);
     return NextResponse.json(
@@ -82,5 +82,3 @@ export async function GET() {
     );
   }
 }
-
-// Route that accepts a slug parameter
