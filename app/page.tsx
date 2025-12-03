@@ -23,7 +23,7 @@ const Home = async () => {
           {events &&
             events.length > 0 &&
             events.map((event: IEvent) => (
-              <li key={event.title}>
+              <li key={String(event._id)}>
                 <EventCard {...event} />
               </li>
             ))}
