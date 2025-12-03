@@ -97,7 +97,7 @@ const CreateEvent = () => {
 
   return (
     <div className="glass w-full max-w-4xl mx-auto p-8 rounded-xl border border-white/10 shadow-2xl">
-      <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-purple-500 mb-8 text-center">
+      <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-teal-400 to-purple-500 mb-8 text-center">
         Create New Event
       </h2>
 
