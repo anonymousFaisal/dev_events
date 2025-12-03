@@ -4,6 +4,7 @@ import Image from "next/image";
 import BookEvent from "@/components/BookEvent";
 import { IEvent } from "@/database/event.model";
 import { getSimilarEventsBySlug, getEventBySlug } from "@/lib/actions/event.action";
+import { getBookingCountByEventId } from "@/lib/actions/booking.action";
 import EventCard from "@/components/EventCard";
 import { cacheLife } from "next/cache";
 import EventDetailItem from "@/components/shared/EventDetailItem";
@@ -18,7 +19,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
 
   if (!event) return notFound();
 
-  const bookings = 10;
+  const bookings = await getBookingCountByEventId(event._id);
   const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug);
   return (
     <section id="event">

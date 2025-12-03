@@ -4,6 +4,7 @@ import React, { useState, ChangeEvent, useActionState, useEffect } from "react";
 import { createEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Image from "next/image";
 
 interface AgendaItem {
   id: string;
@@ -386,7 +387,7 @@ const CreateEvent = () => {
 
               {imagePreview ? (
                 <div className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden">
-                  <img src={imagePreview} alt="Featured" className="w-full h-full object-cover" />
+                  <Image src={imagePreview} alt="Featured" fill className="object-cover" />
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                     <p className="text-white font-medium">Click to change image</p>
                   </div>
