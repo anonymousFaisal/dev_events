@@ -13,6 +13,37 @@ export const getAllEvents = async () => {
   }
 };
 
+export const getAllEventsWithBookingCount = async () => {
+  try {
+    await dbConnect();
+    const events = await Event.aggregate([
+      {
+        $lookup: {
+          from: "bookings",
+          localField: "_id",
+          foreignField: "eventId",
+          as: "bookings",
+        },
+      },
+      {
+        $addFields: {
+          bookingCount: { $size: "$bookings" },
+        },
+      },
+      {
+        $project: {
+          bookings: 0,
+        },
+      },
+      { $sort: { createdAt: -1 } },
+    ]);
+    return JSON.parse(JSON.stringify(events));
+  } catch (error) {
+    console.error("Error fetching all events with booking count:", error);
+    return [];
+  }
+};
+
 export const getEventBySlug = async (slug: string) => {
   try {
     await dbConnect();

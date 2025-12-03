@@ -11,7 +11,7 @@ import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "/" },
-  { name: "Events", href: "/#events" },
+  { name: "Events", href: "/event" },
   { name: "Create Event", href: "/events/create" },
 ];
 
@@ -34,7 +34,7 @@ const Navbar = () => {
           <motion.div whileHover={{ rotate: 20 }} transition={{ type: "spring", stiffness: 300 }}>
             <Image src="/icons/logo.png" alt="Logo" width={28} height={28} />
           </motion.div>
-          <p className="text-xl font-bold italic bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
+          <p className="text-xl font-bold italic bg-linear-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
             DevEvents
           </p>
         </Link>
