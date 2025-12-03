@@ -6,7 +6,7 @@ const EventTags = ({ tags }: { tags: string[] }) => {
       {tags.map((tag) => (
         <div
           key={tag}
-          className="bg-primary/70 hover:bg-primary transition-opacity text-black text-xs font-bold rounded-full px-4 py-1.5 cursor-default"
+          className="bg-primary/70 hover:bg-primary transition-colors text-black text-xs font-bold rounded-full px-4 py-1.5 cursor-default"
         >
           {tag}
         </div>

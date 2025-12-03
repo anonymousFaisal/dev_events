@@ -1,8 +1,8 @@
 "use server";
-import Event from "@/database/event.model";
+import Event, { IEvent } from "@/database/event.model";
 import dbConnect from "../mongodb";
 
-export const getAllEvents = async () => {
+export const getAllEvents = async (): Promise<IEvent[]> => {
   try {
     await dbConnect();
     const events = await Event.find().sort({ createdAt: -1 }).lean();

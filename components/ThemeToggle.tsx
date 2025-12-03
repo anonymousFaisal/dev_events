@@ -5,7 +5,7 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -16,13 +16,16 @@ export function ThemeToggle() {
     return null;
   }
 
+  // Fallback to "dark" if resolvedTheme is undefined
+  const currentTheme = resolvedTheme || "dark";
+
   return (
     <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
       className="rounded-full p-2 hover:bg-light-200/20 transition-colors"
       aria-label="Toggle theme"
     >
-      {theme === "dark" ? <Sun className="h-5 w-5 text-light-100" /> : <Moon className="h-5 w-5 text-dark-100" />}
+      {currentTheme === "dark" ? <Sun className="h-5 w-5 text-light-100" /> : <Moon className="h-5 w-5 text-dark-100" />}
     </button>
   );
 }

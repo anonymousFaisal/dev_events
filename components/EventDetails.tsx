@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import React from "react";
+import mongoose from "mongoose";
 import Image from "next/image";
 import BookEvent from "@/components/BookEvent";
 import { IEvent } from "@/database/event.model";
@@ -19,7 +20,7 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
 
   if (!event) return notFound();
 
-  const bookings = await getBookingCountByEventId(event._id);
+  const { count: bookings } = await getBookingCountByEventId(new mongoose.Types.ObjectId(event._id));
   const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug);
   return (
     <section id="event" className="w-full pt-5">
