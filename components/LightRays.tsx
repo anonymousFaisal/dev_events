@@ -454,7 +454,7 @@ void main() {
   return (
     <div
       ref={containerRef}
-      className={`pointer-events-none relative z-[3] h-full w-full overflow-hidden transition-opacity duration-500 ${
+      className={`pointer-events-none relative z-3 h-full w-full overflow-hidden transition-opacity duration-500 ${
         resolvedTheme === "light" ? "opacity-0" : "opacity-100"
       } ${className}`.trim()}
     />

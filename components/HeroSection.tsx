@@ -11,7 +11,7 @@ const HeroSection = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-center text-6xl font-bold max-sm:text-4xl bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
+        className="text-center text-6xl font-bold max-sm:text-4xl bg-linear-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent"
       >
         The Hub for Every Developer <br /> Event You Can&apos;t Miss
       </motion.h1>
