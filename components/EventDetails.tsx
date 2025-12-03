@@ -22,53 +22,78 @@ const EventDetails = async ({ params }: { params: Promise<string> }) => {
   const bookings = await getBookingCountByEventId(event._id);
   const similarEvents: IEvent[] = await getSimilarEventsBySlug(slug);
   return (
-    <section id="event">
-      <div className="header pt-10">
-        <h1>Event Description</h1>
-        <p>{event.description}</p>
-      </div>
-      <div className="details">
-        {/* Event Content Left side */}
-        <div className="content">
-          <Image src={event.image} alt={event.title} width={800} height={800} className="banner" />
-          <section className="flex-col-gap-2">
-            <h2>Overview</h2>
-            <p>{event.overview}</p>
-          </section>
-          <section className="flex-col-gap-2">
-            <h2>Event Details</h2>
-            <EventDetailItem icon="/icons/calendar.svg" alt="calender" label={event.date} />
-            <EventDetailItem icon="/icons/clock.svg" alt="clock" label={event.time} />
-            <EventDetailItem icon="/icons/pin.svg" alt="location" label={event.location} />
-            <EventDetailItem icon="/icons/mode.svg" alt="mode" label={event.mode} />
-            <EventDetailItem icon="/icons/audience.svg" alt="audience" label={event.audience} />
-          </section>
-          <EventAgenda agendaItems={event.agenda || []} />
-          <section className="flex-col-gap-2">
-            <h2>About the Organizer</h2>
-            <p>{event.organizer}</p>
-          </section>
-          <EventTags tags={event.tags || []} />
+    <section id="event" className="w-full pt-5">
+      {/* Hero Section */}
+      <div className="relative w-full h-[500px] rounded-2xl overflow-hidden mb-12">
+        <Image src={event.image} alt={event.title} fill className="object-cover" priority />
+        <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute bottom-0 left-0 p-8 w-full">
+          <div className="flex flex-col gap-4 max-w-4xl">
+            <EventTags tags={event.tags || []} />
+            <h1 className="text-4xl md:text-6xl font-bold text-white tracking-tight">{event.title}</h1>
+            <div className="flex flex-wrap gap-6 text-white/90">
+              <EventDetailItem icon="/icons/calendar.svg" alt="calender" label={event.date} />
+              <EventDetailItem icon="/icons/pin.svg" alt="location" label={event.location} />
+            </div>
+          </div>
         </div>
-        {/* Booking form Right side */}
-        <aside className="booking">
-          <div className="signup-card">
-            <h2>Book Your Spot</h2>
-            {bookings > 0 ? (
-              <p className="text-sm">Join {bookings} people who have already booked this event</p>
-            ) : (
-              <p className="text-sm">Be the first to book this event</p>
-            )}
+      </div>
+
+      <div className="flex flex-col lg:flex-row gap-12 items-start">
+        {/* Main Content Left side */}
+        <div className="flex-1 flex flex-col gap-10 w-full">
+          <section className="flex flex-col gap-4">
+            <h2 className="text-2xl font-bold font-schibsted-grotesk">Overview</h2>
+            <p className="text-light-200 leading-relaxed text-lg">{event.description}</p>
+          </section>
+
+          <section className="flex flex-col gap-6 p-6 bg-dark-100 rounded-xl border border-dark-200">
+            <h2 className="text-xl font-bold font-schibsted-grotesk">Event Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <EventDetailItem icon="/icons/calendar.svg" alt="calender" label={event.date} />
+              <EventDetailItem icon="/icons/clock.svg" alt="clock" label={event.time} />
+              <EventDetailItem icon="/icons/pin.svg" alt="location" label={event.location} />
+              <EventDetailItem icon="/icons/mode.svg" alt="mode" label={event.mode} />
+              <EventDetailItem icon="/icons/audience.svg" alt="audience" label={event.audience} />
+            </div>
+          </section>
+
+          <EventAgenda agendaItems={event.agenda || []} />
+
+          <section className="flex flex-col gap-4">
+            <h2 className="text-2xl font-bold font-schibsted-grotesk">About the Organizer</h2>
+            <div className="p-6 bg-dark-100 rounded-xl border border-dark-200">
+              <p className="text-light-200">{event.organizer}</p>
+            </div>
+          </section>
+        </div>
+
+        {/* Booking form Right side - Sticky */}
+        <aside className="w-full lg:w-[400px] sticky top-24">
+          <div className="bg-dark-100 border border-dark-200 card-shadow flex w-full flex-col gap-6 rounded-xl p-6">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-2xl font-bold font-schibsted-grotesk">Book Your Spot</h2>
+              {bookings > 0 ? (
+                <p className="text-sm text-primary">Join {bookings} people who have already booked</p>
+              ) : (
+                <p className="text-sm text-light-200">Be the first to book this event</p>
+              )}
+            </div>
             <BookEvent eventId={event._id} slug={event.slug} />
           </div>
         </aside>
       </div>
-      <div className="flex w-full flex-col gap-4 pt-20">
-        <h2>Similar Events</h2>
-        <div className="events">
-          {similarEvents.length > 0 && similarEvents.map((similar: IEvent) => <EventCard key={`${similar._id}`} {...similar} />)}
+
+      {similarEvents.length > 0 && (
+        <div className="flex w-full flex-col gap-8 pt-20 border-t border-dark-200 mt-20">
+          <h2 className="text-3xl font-bold font-schibsted-grotesk">Similar Events</h2>
+          <div className="grid md:grid-cols-3 gap-8 sm:grid-cols-2 grid-cols-1">
+            {similarEvents.map((similar: IEvent) => (
+              <EventCard key={`${similar._id}`} {...similar} />
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </section>
   );
 };
