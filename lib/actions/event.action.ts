@@ -38,7 +38,14 @@ export const getSimilarEventsBySlug = async (slug: string) => {
 import { uploadToCloudinary } from "../cloudinary";
 import { revalidatePath } from "next/cache";
 
-export const createEvent = async (prevState: any, formData: FormData) => {
+export interface CreateEventState {
+  success: boolean;
+  message: string;
+  eventId?: string;
+  slug?: string;
+}
+
+export const createEvent = async (prevState: CreateEventState, formData: FormData): Promise<CreateEventState> => {
   try {
     await dbConnect();
 
@@ -50,16 +57,16 @@ export const createEvent = async (prevState: any, formData: FormData) => {
     }
 
     const eventData = {
-      title: formData.get("title"),
-      description: formData.get("description"),
-      overview: formData.get("overview"),
-      location: formData.get("location"),
-      venue: formData.get("venue"),
-      date: formData.get("date"),
-      time: formData.get("time"),
-      mode: formData.get("mode"),
-      audience: formData.get("audience"),
-      organizer: formData.get("organizer"),
+      title: formData.get("title") as string,
+      description: formData.get("description") as string,
+      overview: formData.get("overview") as string,
+      location: formData.get("location") as string,
+      venue: formData.get("venue") as string,
+      date: formData.get("date") as string,
+      time: formData.get("time") as string,
+      mode: formData.get("mode") as string,
+      audience: formData.get("audience") as string,
+      organizer: formData.get("organizer") as string,
       tags: JSON.parse(formData.get("tags") as string),
       agenda: JSON.parse(formData.get("agenda") as string),
       image: imageUrl,
@@ -68,9 +75,10 @@ export const createEvent = async (prevState: any, formData: FormData) => {
     const newEvent = await Event.create(eventData);
 
     revalidatePath("/");
-    return { success: true, message: "Event created successfully!", eventId: newEvent._id.toString() };
-  } catch (error: any) {
+    return { success: true, message: "Event created successfully!", eventId: newEvent._id.toString(), slug: newEvent.slug };
+  } catch (error: unknown) {
     console.error("Error creating event:", error);
-    return { success: false, message: error.message || "Failed to create event" };
+    const errorMessage = error instanceof Error ? error.message : "Failed to create event";
+    return { success: false, message: errorMessage };
   }
 };

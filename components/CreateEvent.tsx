@@ -3,6 +3,7 @@
 import React, { useState, ChangeEvent, useActionState, useEffect } from "react";
 import { createEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface AgendaItem {
   id: string;
@@ -41,13 +42,12 @@ const CreateEvent = () => {
   const [imagePreview, setImagePreview] = useState<string>("");
 
   useEffect(() => {
-    if (state.success) {
-      alert(state.message);
-      // Optional: Redirect to the new event page or reset form
-      // router.push(`/events/${state.eventId}`);
-      // For now, just reset form or keep as is
+    if (state.success && state.slug) {
+      toast.success(state.message);
+      // Redirect to the newly created event page
+      router.push(`/events/${state.slug}`);
     } else if (state.message) {
-      alert(state.message);
+      toast.error(state.message);
     }
   }, [state, router]);
 
@@ -413,7 +413,7 @@ const CreateEvent = () => {
         <button
           type="submit"
           disabled={isPending}
-          className="w-full bg-gradient-to-r from-primary to-teal-400 text-dark-100 font-bold text-lg py-4 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-linear-to-r from-primary to-teal-400 text-dark-100 font-bold text-lg py-4 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isPending ? "Creating Event..." : "Create Event"}
         </button>

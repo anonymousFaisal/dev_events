@@ -49,11 +49,16 @@ EventSchema.pre("validate", async function (this: IEvent) {
 
   // Validate and normalize date
   if (this.isModified("date")) {
-    const dateObj = new Date(this.date);
-    if (isNaN(dateObj.getTime())) {
-      throw new Error("Invalid date format");
+    // Ensure date is stored as YYYY-MM-DD string
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    if (!dateRegex.test(this.date)) {
+      // Try to parse if it's not already in YYYY-MM-DD
+      const dateObj = new Date(this.date);
+      if (isNaN(dateObj.getTime())) {
+        throw new Error("Invalid date format");
+      }
+      this.date = dateObj.toISOString().split("T")[0];
     }
-    this.date = dateObj.toISOString();
   }
 
   // Ensure time is consistent (simple check, can be expanded)
