@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
       },
     ],
-  },  
+  },
   // PostHog rewrites
   async rewrites() {
     return [
@@ -29,6 +29,11 @@ const nextConfig: NextConfig = {
 
   // Required to support PostHog trailing slash API requests
   skipTrailingSlashRedirect: true,
+  experimental: {
+    serverActions: {
+      bodySizeLimit: "10mb",
+    },
+  },
 };
 
 export default nextConfig;

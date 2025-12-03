@@ -6,40 +6,9 @@ import { IEvent } from "@/database/event.model";
 import { getSimilarEventsBySlug, getEventBySlug } from "@/lib/actions/event.action";
 import EventCard from "@/components/EventCard";
 import { cacheLife } from "next/cache";
-
-const EventDetailItem = ({ icon, alt, label }: { icon: string; alt: string; label: string }) => {
-  return (
-    <div className="flex-row-gap-2 items-center">
-      <Image src={icon} alt={alt} width={17} height={17} />
-      <p>{label}</p>
-    </div>
-  );
-};
-
-const EventAgenda = ({ agendaItems }: { agendaItems: string[] }) => {
-  return (
-    <div className="agenda">
-      <h2>Agenda</h2>
-      <ul>
-        {agendaItems.map((item) => (
-          <li key={item}>{item}</li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-const EventTags = ({ tags }: { tags: string[] }) => {
-  return (
-    <div className="flex flex-row gap-1.5 flex-wrap">
-      {tags.map((tag) => (
-        <div key={tag} className="pill">
-          {tag}
-        </div>
-      ))}
-    </div>
-  );
-};
+import EventDetailItem from "@/components/shared/EventDetailItem";
+import EventAgenda from "@/components/shared/EventAgenda";
+import EventTags from "@/components/shared/EventTags";
 
 const EventDetails = async ({ params }: { params: Promise<string> }) => {
   "use cache";
