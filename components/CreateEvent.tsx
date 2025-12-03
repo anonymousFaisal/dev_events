@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent, useActionState, useEffect } from "react";
+import { createEvent } from "@/lib/actions/event.action";
+import { useRouter } from "next/navigation";
 
 interface AgendaItem {
   id: string;
@@ -8,7 +10,16 @@ interface AgendaItem {
   description: string;
 }
 
+const initialState = {
+  success: false,
+  message: "",
+  eventId: "",
+};
+
 const CreateEvent = () => {
+  const router = useRouter();
+  const [state, formAction, isPending] = useActionState(createEvent, initialState);
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -20,15 +31,25 @@ const CreateEvent = () => {
     mode: "",
     audience: "",
     organizer: "",
-    imageUrl: "",
   });
 
   const [agendaItems, setAgendaItems] = useState<AgendaItem[]>([{ id: "1", time: "", description: "" }]);
 
   const [tags, setTags] = useState<string[]>([]);
   const [currentTag, setCurrentTag] = useState("");
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
 
-  const [isUploading, setIsUploading] = useState(false);
+  useEffect(() => {
+    if (state.success) {
+      alert(state.message);
+      // Optional: Redirect to the new event page or reset form
+      // router.push(`/events/${state.eventId}`);
+      // For now, just reset form or keep as is
+    } else if (state.message) {
+      alert(state.message);
+    }
+  }, [state, router]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -64,35 +85,28 @@ const CreateEvent = () => {
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setIsUploading(true);
-      console.log(`Uploading file: ${file.name}`);
-
-      // Simulate Cloudinary upload delay
-      setTimeout(() => {
-        setFormData((prev) => ({
-          ...prev,
-          imageUrl: "https://via.placeholder.com/800x400.png?text=Featured+Image",
-        }));
-        setIsUploading(false);
-      }, 2000);
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (formData: FormData) => {
+    // Append complex data structures to FormData
+    formData.append("tags", JSON.stringify(tags));
 
-    // Format agenda items to strings as per model
     const formattedAgenda = agendaItems.filter((item) => item.time && item.description).map((item) => `${item.time} | ${item.description}`);
+    formData.append("agenda", JSON.stringify(formattedAgenda));
 
-    const eventData = {
-      ...formData,
-      image: formData.imageUrl, // Map imageUrl to image
-      agenda: formattedAgenda,
-      tags: tags,
-    };
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
 
-    console.log("Submitting Event Data:", eventData);
-    alert("Event Created! (Check console for data)");
+    // Call the server action
+    formAction(formData);
   };
 
   return (
@@ -101,7 +115,7 @@ const CreateEvent = () => {
         Create New Event
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form action={handleSubmit} className="space-y-8">
         {/* Basic Info Section */}
         <div className="space-y-6">
           <h3 className="text-xl font-semibold text-light-100 border-b border-white/10 pb-2">Event Details</h3>
@@ -370,14 +384,9 @@ const CreateEvent = () => {
                 aria-label="Upload featured image"
               />
 
-              {isUploading ? (
-                <div className="flex flex-col items-center gap-3">
-                  <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
-                  <p className="text-light-200">Uploading to Cloudinary...</p>
-                </div>
-              ) : formData.imageUrl ? (
+              {imagePreview ? (
                 <div className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden">
-                  <img src={formData.imageUrl} alt="Featured" className="w-full h-full object-cover" />
+                  <img src={imagePreview} alt="Featured" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                     <p className="text-white font-medium">Click to change image</p>
                   </div>
@@ -403,9 +412,10 @@ const CreateEvent = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-primary to-teal-400 text-dark-100 font-bold text-lg py-4 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/20"
+          disabled={isPending}
+          className="w-full bg-gradient-to-r from-primary to-teal-400 text-dark-100 font-bold text-lg py-4 rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Create Event
+          {isPending ? "Creating Event..." : "Create Event"}
         </button>
       </form>
     </div>
