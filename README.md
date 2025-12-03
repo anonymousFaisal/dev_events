@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DevEvent
 
-## Getting Started
+**The best events for developers you mustn't miss.**
 
-First, run the development server:
+[Live Demo](https://dev-events-eosin.vercel.app/)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+DevEvent is a modern web application designed to help developers discover and book technical events. This project serves as a playground and demonstration of the latest features in **Next.js 16**, including advanced caching mechanisms and Server Actions, built with a premium, aesthetic UI.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework:** [Next.js 16](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS 4](https://tailwindcss.com/)
+- **Database:** [MongoDB](https://www.mongodb.com/) with [Mongoose](https://mongoosejs.com/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/) & Custom WebGL (LightRays)
+- **Image Management:** [Cloudinary](https://cloudinary.com/)
+- **Analytics:** [PostHog](https://posthog.com/)
+- **Icons:** [Lucide React](https://lucide.dev/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## ✨ Key Features & Learnings
 
-## Learn More
+This project was built to explore and implement cutting-edge Next.js 16 concepts:
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Next.js 16 Caching (`use cache`)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Leveraging the new `use cache` directive and `cacheLife` API to optimize data fetching.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Implementation:** See `app/page.tsx` where `cacheLife("hours")` is used to cache event data, reducing database load and improving response times.
 
-## Deploy on Vercel
+### 2. Server Actions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Moving away from traditional API routes for data mutations and fetching.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Implementation:** All database interactions (creating events, booking tickets) are handled via Server Actions in `lib/actions/`, ensuring type safety and reduced client-side bundle size.
+
+### 3. Modern Aesthetic UI
+
+- **Glassmorphism & Dark Mode:** A sleek, dark-themed UI with glass effects.
+- **Interactive Animations:** Subtle micro-interactions using Framer Motion and a custom WebGL background effect (`LightRays`) that reacts to mouse movement.
+
+### 4. Third-Party Integrations
+
+- **Cloudinary:** For optimized image hosting and delivery.
+- **PostHog:** For product analytics and user tracking.
+
+## 🛠️ Getting Started
+
+Follow these steps to run the project locally.
+
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- MongoDB instance (Local or Atlas)
+
+### Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/your-username/dev-events.git
+   cd dev-events
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up Environment Variables:**
+   Create a `.env` file in the root directory and add the following:
+
+   ```env
+   MONGODB_URI=your_mongodb_connection_string
+   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=your_cloud_name
+   NEXT_PUBLIC_POSTHOG_KEY=your_posthog_key
+   NEXT_PUBLIC_POSTHOG_HOST=your_posthog_host
+   ```
+
+4. **Run the development server:**
+
+   ```bash
+   npm run dev
+   ```
+
+5. **Open the app:**
+   Visit [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 📂 Project Structure
+
+- `app/`: Next.js App Router pages and layouts.
+- `components/`: Reusable UI components (Hero, EventList, Navbar, etc.).
+- `lib/`: Utility functions, database connection, and Server Actions.
+- `database/`: Mongoose models and schemas.
+- `public/`: Static assets.
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open an issue or submit a pull request.
+
+---
+
+_Built with ❤️ by Nahid Hasan_
