@@ -4,6 +4,7 @@ import React, { useState, ChangeEvent, useActionState, useEffect } from "react";
 import { createEvent } from "@/lib/actions/event.action";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import Image from "next/image";
 
 interface AgendaItem {
   id: string;
@@ -110,7 +111,7 @@ const CreateEvent = () => {
   };
 
   return (
-    <div className="glass w-full max-w-4xl mx-auto p-8 rounded-xl border border-white/10 shadow-2xl">
+    <div className="glass w-full max-w-4xl mx-auto p-8 rounded-xl border border-border shadow-2xl">
       <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-teal-400 to-purple-500 mb-8 text-center">
         Create New Event
       </h2>
@@ -118,7 +119,7 @@ const CreateEvent = () => {
       <form action={handleSubmit} className="space-y-8">
         {/* Basic Info Section */}
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-light-100 border-b border-white/10 pb-2">Event Details</h3>
+          <h3 className="text-xl font-semibold text-light-100 border-b border-border pb-2">Event Details</h3>
 
           <div className="grid grid-cols-1 gap-6">
             <div className="flex flex-col gap-2">
@@ -132,7 +133,7 @@ const CreateEvent = () => {
                 value={formData.title}
                 onChange={handleChange}
                 placeholder="e.g., Cloud Next 2026"
-                className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20"
+                className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground"
                 required
               />
             </div>
@@ -148,7 +149,7 @@ const CreateEvent = () => {
                 onChange={handleChange}
                 placeholder="Brief summary for cards..."
                 rows={2}
-                className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20 resize-none"
+                className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground resize-none"
                 required
               />
             </div>
@@ -164,7 +165,7 @@ const CreateEvent = () => {
                 onChange={handleChange}
                 placeholder="Full event details, goals, and highlights..."
                 rows={5}
-                className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20 resize-none"
+                className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground resize-none"
                 required
               />
             </div>
@@ -181,7 +182,7 @@ const CreateEvent = () => {
                   value={formData.venue}
                   onChange={handleChange}
                   placeholder="e.g., Moscone Center"
-                  className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20"
+                  className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground"
                   required
                 />
               </div>
@@ -197,7 +198,7 @@ const CreateEvent = () => {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="e.g., San Francisco, CA"
-                  className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20"
+                  className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground"
                   required
                 />
               </div>
@@ -207,7 +208,7 @@ const CreateEvent = () => {
 
         {/* Logistics Section */}
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-light-100 border-b border-white/10 pb-2">Logistics & Audience</h3>
+          <h3 className="text-xl font-semibold text-light-100 border-b border-border pb-2">Logistics & Audience</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
@@ -220,7 +221,7 @@ const CreateEvent = () => {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
-                className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all scheme-dark"
+                className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all dark:scheme-dark"
                 required
               />
             </div>
@@ -235,7 +236,7 @@ const CreateEvent = () => {
                 name="time"
                 value={formData.time}
                 onChange={handleChange}
-                className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all scheme-dark"
+                className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all dark:scheme-dark"
                 required
               />
             </div>
@@ -251,7 +252,7 @@ const CreateEvent = () => {
                 value={formData.mode}
                 onChange={handleChange}
                 placeholder="e.g., Hybrid (In-Person & Online)"
-                className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20"
+                className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground"
                 required
               />
             </div>
@@ -267,7 +268,7 @@ const CreateEvent = () => {
                 value={formData.organizer}
                 onChange={handleChange}
                 placeholder="e.g., Google Cloud"
-                className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20"
+                className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground"
                 required
               />
             </div>
@@ -283,7 +284,7 @@ const CreateEvent = () => {
                 value={formData.audience}
                 onChange={handleChange}
                 placeholder="e.g., Cloud engineers, DevOps, enterprise leaders"
-                className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20"
+                className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground"
                 required
               />
             </div>
@@ -292,7 +293,7 @@ const CreateEvent = () => {
 
         {/* Tags Section */}
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-light-100 border-b border-white/10 pb-2">Tags</h3>
+          <h3 className="text-xl font-semibold text-light-100 border-b border-border pb-2">Tags</h3>
           <div className="flex flex-col gap-2">
             <label htmlFor="tags" className="text-sm font-medium text-light-200">
               Add Tags (Press Enter)
@@ -304,7 +305,7 @@ const CreateEvent = () => {
               onChange={(e) => setCurrentTag(e.target.value)}
               onKeyDown={handleAddTag}
               placeholder="e.g., AI, Kubernetes"
-              className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20"
+              className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground"
             />
             <div className="flex flex-wrap gap-2 mt-2">
               {tags.map((tag, index) => (
@@ -321,7 +322,7 @@ const CreateEvent = () => {
 
         {/* Agenda Section */}
         <div className="space-y-6">
-          <div className="flex justify-between items-center border-b border-white/10 pb-2">
+          <div className="flex justify-between items-center border-b border-border pb-2">
             <h3 className="text-xl font-semibold text-light-100">Agenda</h3>
             <button type="button" onClick={addAgendaItem} className="text-primary hover:text-primary/80 text-sm font-medium transition-colors">
               + Add Item
@@ -338,7 +339,7 @@ const CreateEvent = () => {
                       value={item.time}
                       onChange={(e) => handleAgendaChange(item.id, "time", e.target.value)}
                       placeholder="08:30 AM - 09:30 AM"
-                      className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20 w-full"
+                      className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground w-full"
                       aria-label={`Time for agenda item ${index + 1}`}
                       required
                     />
@@ -349,7 +350,7 @@ const CreateEvent = () => {
                       value={item.description}
                       onChange={(e) => handleAgendaChange(item.id, "description", e.target.value)}
                       placeholder="e.g., Keynote: AI-Driven Cloud Infrastructure"
-                      className="bg-dark-200/50 border border-white/10 rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-white/20 w-full"
+                      className="bg-dark-200/50 border border-border rounded-lg px-4 py-3 text-light-100 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-muted-foreground w-full"
                       aria-label={`Description for agenda item ${index + 1}`}
                       required
                     />
@@ -372,10 +373,10 @@ const CreateEvent = () => {
 
         {/* Image Upload Section */}
         <div className="space-y-6">
-          <h3 className="text-xl font-semibold text-light-100 border-b border-white/10 pb-2">Featured Image</h3>
+          <h3 className="text-xl font-semibold text-light-100 border-b border-border pb-2">Featured Image</h3>
 
           <div className="flex flex-col gap-4">
-            <div className="relative border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-primary/50 transition-colors bg-dark-200/30">
+            <div className="relative border-2 border-dashed border-border rounded-xl p-8 text-center hover:border-primary/50 transition-colors bg-dark-200/30">
               <input
                 type="file"
                 accept="image/*"
@@ -386,7 +387,7 @@ const CreateEvent = () => {
 
               {imagePreview ? (
                 <div className="relative w-full h-48 md:h-64 rounded-lg overflow-hidden">
-                  <img src={imagePreview} alt="Featured" className="w-full h-full object-cover" />
+                  <Image src={imagePreview} alt="Featured" fill className="object-cover" />
                   <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity">
                     <p className="text-white font-medium">Click to change image</p>
                   </div>

@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { Renderer, Program, Triangle, Mesh } from "ogl";
+import { useTheme } from "next-themes";
 
 export type RaysOrigin =
   | "top-center"
@@ -94,6 +95,7 @@ const LightRays: React.FC<LightRaysProps> = ({
   distortion = 0.0,
   className = "",
 }) => {
+  const { theme, resolvedTheme } = useTheme();
   const containerRef = useRef<HTMLDivElement>(null);
   const uniformsRef = useRef<Uniforms | null>(null);
   const rendererRef = useRef<Renderer | null>(null);
@@ -396,7 +398,11 @@ void main() {
     const u = uniformsRef.current;
     const renderer = rendererRef.current;
 
-    u.raysColor.value = hexToRgb(raysColor);
+    // Adjust color based on theme
+    // const effectiveColor = resolvedTheme === "light" ? "#dbdbdb" : raysColor; // Subtle gray for light mode
+    const effectiveColor = raysColor;
+
+    u.raysColor.value = hexToRgb(effectiveColor);
     u.raysSpeed.value = raysSpeed;
     u.lightSpread.value = lightSpread;
     u.rayLength.value = rayLength;
@@ -412,7 +418,21 @@ void main() {
     const { anchor, dir } = getAnchorAndDir(raysOrigin, wCSS * dpr, hCSS * dpr);
     u.rayPos.value = anchor;
     u.rayDir.value = dir;
-  }, [raysColor, raysSpeed, lightSpread, raysOrigin, rayLength, pulsating, fadeDistance, saturation, mouseInfluence, noiseAmount, distortion]);
+  }, [
+    raysColor,
+    raysSpeed,
+    lightSpread,
+    raysOrigin,
+    rayLength,
+    pulsating,
+    fadeDistance,
+    saturation,
+    mouseInfluence,
+    noiseAmount,
+    distortion,
+    theme,
+    resolvedTheme,
+  ]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -429,7 +449,16 @@ void main() {
     }
   }, [followMouse]);
 
-  return <div ref={containerRef} className={`pointer-events-none relative z-[3] h-full w-full overflow-hidden ${className}`.trim()} />;
+  // if (theme === "light") return null;
+
+  return (
+    <div
+      ref={containerRef}
+      className={`pointer-events-none relative z-3 h-full w-full overflow-hidden transition-opacity duration-500 ${
+        resolvedTheme === "light" ? "opacity-0" : "opacity-100"
+      } ${className}`.trim()}
+    />
+  );
 };
 
 export default LightRays;
